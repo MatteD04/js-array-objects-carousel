@@ -9,6 +9,9 @@
 img {
     display: block;
 }
+body{
+    background-color: rgba(0, 0, 0, 0.867);
+}
 
 .container-big {
     min-width: 1200px;
@@ -37,6 +40,7 @@ img {
     bottom: 40px;
     right: 20px;
     color: white;
+    font-size: 25px;
 }
 .image.active {
     display: block;
