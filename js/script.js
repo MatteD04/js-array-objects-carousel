@@ -3,10 +3,6 @@
  //titolo
  //descrizione
 //Creare un carosello come nella foto allegata.
-//Milestone 0:
-//Come nel primo carosello realizzato, focalizziamoci prima sulla creazione del markup statico: costruiamo il container e inseriamo l'immagine grande in modo da poter stilare lo slider.
-//Milestone 1:
-//Ora rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
 //Al click dell'utente sulle frecce verso alto o basso, l'immagine attiva diventerà visibile e dovremo aggiungervi titolo e testo.
 //Milestone 2:
 //Aggiungere il **ciclo infinito** del carosello. Ovvero se la miniatura attiva è la prima e l'utente clicca la freccia verso l'alto, la miniatura che deve attivarsi sarà l'ultima e viceversa per l'ultima miniatura se l'utente clicca la freccia verso il basso.
@@ -16,7 +12,7 @@
 const images = [
     {
         image: 'img/01.webp',
-        title: 'Marvel\'s Spiderman Miles Morale',
+        title: 'Marvel\'s Spiderman Miles Morales',
         text: 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.',
     }, {
         image: 'img/02.webp',
@@ -37,3 +33,76 @@ const images = [
     }
 ];
 
+let activeItem = 0;
+
+//Per ogni immagine nell'array la leggo e la inserisco in pagina come immagine e come thumbnails
+const imagesContainer = document.querySelector('.images-container');
+const thumbnailsContainer = document.querySelector('.thumbnails-container');
+
+for(let i = 0; i < images.length; i++) {
+    const thisImage = images[i];
+
+    const newImage = `
+    <div class="image">
+        <img src="${thisImage.image}">
+        <div class="text">
+            <h1>${thisImage.title}</h1>
+            <p>${thisImage.text}</p>
+        </div>
+    </div>
+    `;
+
+    imagesContainer.innerHTML += newImage;
+
+    const newThumbnail = `
+    <div class="thumbnail">
+        <img src="${thisImage.image}">
+    </div>
+    `;
+
+    thumbnailsContainer.innerHTML += newThumbnail;
+}
+
+//aggiungere la classe active alla prima immagine
+const allImages = document.querySelectorAll('.image');
+allImages[activeItem].classList.add('active');
+
+const allThumbnails = document.querySelectorAll('.thumbnail');
+allThumbnails[activeItem].classList.add('active');
+
+//al click sulle frecce
+const nextArrow = document.querySelector('.arrow.next');
+nextArrow.addEventListener('click', function() {
+    //rimuovere la classe active dall'immagine 
+    document.querySelector('.image.active').classList.remove('active');
+    document.querySelector('.thumbnail.active').classList.remove('active');
+
+    //aumentare activeItem di 1
+    if(activeItem < allImages.length - 1) {
+        activeItem++;
+    } else {
+        activeItem = 0;
+    }
+
+    //aggiungere la classe active alla nuova immagine
+    allImages[activeItem].classList.add('active');
+    allThumbnails[activeItem].classList.add('active');
+});
+
+const previousArrow = document.querySelector('.arrow.before');
+previousArrow.addEventListener('click', function() {
+    //rimuovere la classe active dall'immagine
+    document.querySelector('.image.active').classList.remove('active');
+    document.querySelector('.thumbnail.active').classList.remove('active');
+
+    //diminuire activeItem di 1
+    if(activeItem > 0) {
+        activeItem--;
+    } else {
+        activeItem = allImages.length - 1;
+    }
+
+    //aggiungere active alla nuova immagine
+    allImages[activeItem].classList.add('active');
+    allThumbnails[activeItem].classList.add('active');
+});
